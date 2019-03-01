@@ -1,6 +1,6 @@
 # Ruby on Rails demo code.
 
-This demo shows code related to:
+Demo code related to:
 
 - Javascript code.
 - Challenges & Users controllers.
