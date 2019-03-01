@@ -1,0 +1,58 @@
+<% provide(:title, 'Challenges') %>
+<br>
+
+<% current_user.current_month_payments.each do |p| %>
+
+	<% if p.date.to_date < (Date.today + 6.days).to_date %>
+		<%  klass = "alert alert-danger" %>
+	<% elsif p.date.to_date < (Date.today + 11.days).to_date %>
+		<%  klass = "alert alert-warning fade-alert" %>
+	<% elsif p.date.to_date < (Date.today + 16.days).to_date %>
+		<%  klass = "alert alert-info fade-alert" %>
+	<% else %>
+		<%  klass = "hidden" %>
+	<% end %>
+
+<div class="<%= klass %>">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<%= "Te recordamos que tienes un pago pendiente con fecha limite del #{p.date.to_date} por la cantidad de #{format(p.amount)}" %>
+</div>
+<% end %>
+
+
+...
+
+
+<div class="row">
+
+	<%= render 'challenges/courses_titles', day: @day, course: @course, week: @week %>
+
+	<!-- ======================================================================== -->
+	<div class="col-md-8">
+
+		<div id="days_nav">
+			<div class="well well-small">
+				<ul class="nav nav-pills">
+					<% Week.weekdays.each do |num_day,string_day| %>
+				  	<% if @course.structure == "weeks" %>
+				  		<li><%= link_to string_day, challenge_weeks_path(course:@course.id, week:"#{@week.id}", day:num_day), id:"day_#{num_day}", remote: true %></li>
+				  	<% else %>
+				  		<li><%= link_to "Sección-#{num_day}", challenge_weeks_path(course:@course.id, week:"#{@week.id}", day:num_day), id:"day_#{num_day}", remote: true %></li>
+				  	<% end %>
+					<% end %>
+				</ul>
+			</div>
+		</div>
+
+
+	  <div id="challenges_content">
+	  	<%= render 'challenges/weekday', schedules: @schedules, course: @course %>
+    </div> <!-- challenges content -->
+	</div> <!-- 8 colums -->
+</div> <!-- row -->
+
+<script type="text/javascript">
+	$('#week_<%= @week.id %>').parent().addClass("active");
+	$('#day_<%= @day %>').parent().addClass("active");
+</script>
+

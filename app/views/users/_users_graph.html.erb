@@ -1,0 +1,129 @@
+
+<% if type == "enrolment_date" %>
+	<h2 class="title">Inscripciones de Alumnos</h2>
+<% else %>
+	<h2 class="title">Fechas de Inicio Alumnos</h2>
+<% end %>
+
+<div class="table-responsive">
+
+<% if type == "enrolment_date" %>
+<table class="table table-striped tablesorter info_center">
+	<thead >
+		<th id="tt_label">Total</th>
+		<th id="tc_label" >Intensivos</th>
+		<th id="mt_label" >Medio Tiempo</th>
+        
+		...
+
+	</thead>
+	<tbody>
+		<tr>
+			<td><%= User.students.count %></td>
+			<td id="c_int"></td>
+			<td id="c_mt"></td>
+            
+			...
+
+		</tr>
+	</tbody>
+</table>
+<% end %>
+<div class="table-scroll-h">	
+<table class="table">
+	<tbody>
+		<tr class="container-fluid">
+			<% months.map do |d| %>
+			<td valign="bottom" style="vertical-align:bottom!important;">
+			<ul class="graph_ul">
+				<% users_where_month_and_year(d,type).each do |u| %>
+					<li class="graph_id <%= user_graph_class(u) %>" rel="tooltip" title="<%= u.name %>">
+							<%= link_to u.name.split.first , u %> 
+					</li>
+				<% end %>
+			</ul>									
+			</td>
+			<% end %>
+		</tr>
+
+		<% [[['INT'],'c_int'],[['MTM','MTT'],'c_mt'],[['EMP'],'c_emp'],[['COL'],"c_col"]].each do |mode_arr| %>		
+		<tr class="<%= "#{mode_arr[1]} container-fluid" %>" style="color:white;">
+			<% months.map do |d| %>
+				<td style="text-align:center;font-weight:bold;">
+					<%= users_where_month_and_year(d,type).select {|user| mode_arr[0].include?(user.mode)}.size %>								
+				</td>
+			<% end %>
+		</tr>
+		<% end %>
+
+		<% if type == "enrolment_date" %>
+			<% klass = "total_inscritos" %>
+		<% end %>
+
+		<tr id="<%= klass %>" class="container-fluid">
+			<% months.map do |d| %>
+				<th style="text-align:center;">
+					<%= users_where_month_and_year(d,type).size %>								
+				</th>
+			<% end %>
+		</tr>
+		<tr class="container-fluid">
+			<% months.each do |d| %>
+				<th style="text-align:center;"><%= Date::MONTHNAMES[d[-2..-1].to_i] %><br><%= d[0..3] %></th>
+			<% end %>
+		</tr>  
+		
+		<% if type == "enrolment_date" %>
+			<tr id="leads" class="container-fluid">
+				<% leads.each do |date,lead_count| %>
+					<th style="text-align:center;"><%= lead_count %></th>
+				<% end %>
+			</tr> 
+			<tr id="leads_percentage" class="container-fluid">
+				<% leads.each do %>
+					<td style="text-align:center;"></td>
+				<% end %>
+		  </tr>
+		<% end %>
+
+	</tbody>
+</table>
+</div>
+<%= link_to "Limpiar Gráfica", "#", id: "removeclass", class: "btn btn-primary boton_der" %> 
+</div>
+
+
+
+<script type="text/javascript">
+
+$('#c_int').html($('.c_int').size());
+$('#c_mt').html($('.c_mt').size());
+$('#c_potencial').html($('.c_potencial').size());
+$('#c_graduado').html($('.c_graduado').size());
+
+...
+
+
+$('#removeclass').on('click',function(event){
+	event.preventDefault();
+	$('.c_potencial').removeClass('c_potencial');
+	$('.c_graduado').removeClass('c_graduado');
+    
+    ...
+
+})
+
+var enrroled = $('#total_inscritos th')
+var leads = $('#leads th')
+$.each($('#leads_percentage td'),function(i,v){
+var percentage = (parseFloat($(enrroled[i]).text()) / parseFloat($(leads[i]).text()))*100
+
+...
+
+});
+
+</script>
+
+
+
+

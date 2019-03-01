@@ -1,0 +1,21 @@
+
+...
+
+$("#weeks_nav .active").removeClass("active");
+$('#week_<%= @week.id %>').parent().addClass("active");
+
+$("#days_nav .active").removeClass("active");
+$('#day_<%= @day %>').parent().addClass("active");
+
+$("#days_nav a").each(function() {
+
+	var dayNum = $(this).attr('id')[4];
+	$(this).attr('href', '/challenges_weeks/<%= @course.id %>/<%= @week.id %>/' + dayNum);
+
+});
+
+$('#challenges_content').html("<%= j render('challenges/weekday', schedules: @schedules, course: @course) %>");
+
+
+
+

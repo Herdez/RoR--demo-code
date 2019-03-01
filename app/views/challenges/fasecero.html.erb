@@ -1,0 +1,47 @@
+<% provide(:title, 'Fase 0') %>
+
+<h2>Fase 0</h2>
+
+<% if @semana_1.any? %>
+
+	<h3>Tutoriales y Lecturas Semana 1</h3>
+
+	<div class="row">
+		<div class="col-md-12">
+		  <div id="challenges_content">
+		  	<%= render 'challenges/weekday_fasecero', challenges: @semana_1, course: @course %>
+	    </div> <!-- challenges content -->
+		</div> <!-- 12 colums -->
+	</div> <!-- row -->
+
+<% end %>
+
+<% if @semana_2.any? %>
+
+	<h3>Tutoriales y Lecturas Semana 2</h3>
+
+	<div class="row">
+		<div class="col-md-12">
+		  <div id="challenges_content">
+		  	<%= render 'challenges/weekday_fasecero', challenges: @semana_2, course: @course %>
+	    </div> <!-- challenges content -->
+		</div> <!-- 12 colums -->
+	</div> <!-- row -->
+
+<% end %>
+
+<% if @semana_3.any? %>
+
+	<h3>Tutoriales y Lecturas Semana 3</h3>
+
+	<div class="row">
+		<div class="col-md-12">
+		  <div id="challenges_content">
+		  	<%= render 'challenges/weekday_fasecero', challenges: @semana_3, course: @course %>
+	    </div> <!-- challenges content -->
+		</div> <!-- 12 colums -->
+	</div> <!-- row -->
+
+<% end %>
+
+...
